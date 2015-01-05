@@ -49,4 +49,5 @@ Spotify.requestCredential = function (options, credentialRequestCompleteCallback
     credentialRequestCompleteCallback: credentialRequestCompleteCallback,
     credentialToken: credentialToken
   });
+  console.log("found");
 };
