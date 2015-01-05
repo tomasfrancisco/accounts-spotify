@@ -74,8 +74,9 @@ var getTokenResponse = function (query) {
   // time from the response
   console.log("extract");
   console.log(isJSON(responseContent));
+  responseContent = JSON.parse(responseContent);
   console.log(responseContent);
-  var spAccessToken = responseContent["access_token"];
+  var spAccessToken = responseContent.access_token;
   var spExpires = responseContent.expires_in;
   console.log(spExpires, spAccessToken);
   if (!spAccessToken) {
