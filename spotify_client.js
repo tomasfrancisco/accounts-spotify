@@ -38,7 +38,7 @@ Spotify.requestCredential = function (options, credentialRequestCompleteCallback
   var loginUrl =
         'https://accounts.spotify.com/authorize?client_id=' + config.appId +
         '&response_type=code' +
-        '&redirect_uri=' + OAuth._redirectUri('spotify', config) + "?" +
+        '&redirect_uri=' + OAuth._redirectUri('spotify', config) + 
         '&scope=' + scope +
         '&state=' + OAuth._stateParam(loginStyle, credentialToken);
   console.log(OAuth._redirectUri('spotify', config));
