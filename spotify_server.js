@@ -60,23 +60,22 @@ var getTokenResponse = function (query) {
         }
       }).content;
     console.log(responseContent);
+
   } catch (err) {
     throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
                    {response: err.response});
   }
   // If 'responseContent' parses as JSON, it is an error.
   // XXX which facebook error causes this behvaior?
-  if (isJSON(responseContent)) {
-    console.log("i'm json")
+  if (isJSON(responseContent) && responseContent.error) { //error in content
     throw new Error("Failed to complete OAuth handshake with Spotify. " + responseContent);
   }
 
   // Success!  Extract the facebook access token and expiration
   // time from the response
-  var parsedResponse = querystring.parse(responseContent);
-  var spAccessToken = parsedResponse.access_token;
-  var spExpires = parsedResponse.expires;
-
+  var spAccessToken = responseContent.access_token;
+  var spExpires = responseContent.expires_in;
+  console.log(spExpires, spAccessToken);
   if (!spAccessToken) {
     throw new Error("Failed to complete OAuth handshake with spotify " +
                     "-- can't find access token in HTTP response. " + responseContent);
