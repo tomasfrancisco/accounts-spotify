@@ -59,7 +59,7 @@ var getTokenResponse = function (query) {
           grant_type: 'authorization_code'
         }
       });
-    console.log(responseContent);
+    console.log(responseContent.content);
     responseContent = responseContent.content;
   } catch (err) {
     throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
