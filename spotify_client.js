@@ -41,7 +41,7 @@ Spotify.requestCredential = function (options, credentialRequestCompleteCallback
         '&redirect_uri=' + OAuth._redirectUri('spotify', config) +
         '&scope=' + scope +
         '&state=' + OAuth._stateParam(loginStyle, credentialToken);
-  console.log('findme');
+  console.log(OAuth._redirectUri('spotify', config));
   OAuth.launchLogin({
     loginService: "spotify",
     loginStyle: loginStyle,
