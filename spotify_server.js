@@ -58,9 +58,8 @@ var getTokenResponse = function (query) {
           redirect_uri: OAuth._redirectUri('spotify', config),
           grant_type: 'authorization_code'
         }
-      });
-    console.log(responseContent.content);
-    responseContent = responseContent.content;
+      }).content;
+    console.log(responseContent);
   } catch (err) {
     throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
                    {response: err.response});
