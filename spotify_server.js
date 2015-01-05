@@ -20,7 +20,7 @@ OAuth.registerService('spotify', 2, null, function(query) {
 
   // var fields = _.pick(identity, whitelisted);
   // _.extend(serviceData, fields);
-
+  console.log(serviceData);
   return {
     serviceData: serviceData,
     options: {profile: {name: identity.display_name}}
