@@ -1,10 +1,10 @@
-Template.configureLoginServiceDialogForFacebook.helpers({
+Template.configureLoginServiceDialogForSpotify.helpers({
   siteUrl: function () {
     return Meteor.absoluteUrl();
   }
 });
 
-Template.configureLoginServiceDialogForFacebook.fields = function () {
+Template.configureLoginServiceDialogForSpotify.fields = function () {
   return [
     {property: 'appId', label: 'App ID'},
     {property: 'secret', label: 'App Secret'}

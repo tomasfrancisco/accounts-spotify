@@ -1,9 +1,9 @@
-Facebook = {};
+Spotify = {};
 
 var querystring = Npm.require('querystring');
 
 
-OAuth.registerService('facebook', 2, null, function(query) {
+OAuth.registerService('spotify', 2, null, function(query) {
 
   var response = getTokenResponse(query);
   var accessToken = response.accessToken;
@@ -16,15 +16,15 @@ OAuth.registerService('facebook', 2, null, function(query) {
 
   // include all fields from facebook
   // http://developers.facebook.com/docs/reference/login/public-profile-and-friend-list/
-  var whitelisted = ['id', 'email', 'name', 'first_name',
-      'last_name', 'link', 'username', 'gender', 'locale', 'age_range'];
+  // var whitelisted = ['id', 'email', 'name', 'first_name',
+  //     'last_name', 'link', 'username', 'gender', 'locale', 'age_range'];
 
-  var fields = _.pick(identity, whitelisted);
-  _.extend(serviceData, fields);
+  // var fields = _.pick(identity, whitelisted);
+  // _.extend(serviceData, fields);
 
   return {
     serviceData: serviceData,
-    options: {profile: {name: identity.name}}
+    options: {profile: {name: identity.display_name}}
   };
 });
 
@@ -42,7 +42,7 @@ var isJSON = function (str) {
 // - accessToken
 // - expiresIn: lifetime of token in seconds
 var getTokenResponse = function (query) {
-  var config = ServiceConfiguration.configurations.findOne({service: 'facebook'});
+  var config = ServiceConfiguration.configurations.findOne({service: 'spotify'});
   if (!config)
     throw new ServiceConfiguration.ConfigError();
 
@@ -50,51 +50,52 @@ var getTokenResponse = function (query) {
   try {
     // Request an access token
     responseContent = HTTP.get(
-      "https://graph.facebook.com/oauth/access_token", {
+      "https://accounts.spotify.com/api/token", {
         params: {
+          code: query.code,
           client_id: config.appId,
-          redirect_uri: OAuth._redirectUri('facebook', config),
           client_secret: OAuth.openSecret(config.secret),
-          code: query.code
+          redirect_uri: OAuth._redirectUri('spotify', config),
+          grant_type: 'authorization_code'
         }
       }).content;
   } catch (err) {
-    throw _.extend(new Error("Failed to complete OAuth handshake with Facebook. " + err.message),
+    throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
                    {response: err.response});
   }
 
   // If 'responseContent' parses as JSON, it is an error.
   // XXX which facebook error causes this behvaior?
   if (isJSON(responseContent)) {
-    throw new Error("Failed to complete OAuth handshake with Facebook. " + responseContent);
+    throw new Error("Failed to complete OAuth handshake with Spotify. " + responseContent);
   }
 
   // Success!  Extract the facebook access token and expiration
   // time from the response
   var parsedResponse = querystring.parse(responseContent);
-  var fbAccessToken = parsedResponse.access_token;
-  var fbExpires = parsedResponse.expires;
+  var spAccessToken = parsedResponse.access_token;
+  var spExpires = parsedResponse.expires;
 
-  if (!fbAccessToken) {
-    throw new Error("Failed to complete OAuth handshake with facebook " +
+  if (!spAccessToken) {
+    throw new Error("Failed to complete OAuth handshake with spotify " +
                     "-- can't find access token in HTTP response. " + responseContent);
   }
   return {
-    accessToken: fbAccessToken,
-    expiresIn: fbExpires
+    accessToken: spAccessToken,
+    expiresIn: spExpires
   };
 };
 
 var getIdentity = function (accessToken) {
   try {
-    return HTTP.get("https://graph.facebook.com/me", {
+    return HTTP.get("https://api.spotify.com/v1/me", {
       params: {access_token: accessToken}}).data;
   } catch (err) {
-    throw _.extend(new Error("Failed to fetch identity from Facebook. " + err.message),
+    throw _.extend(new Error("Failed to fetch identity from Spotify. " + err.message),
                    {response: err.response});
   }
 };
 
-Facebook.retrieveCredential = function(credentialToken, credentialSecret) {
+Spotify.retrieveCredential = function(credentialToken, credentialSecret) {
   return OAuth.retrieveCredential(credentialToken, credentialSecret);
 };
