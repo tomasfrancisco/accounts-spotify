@@ -73,7 +73,8 @@ var getTokenResponse = function (query) {
 
   // Success!  Extract the facebook access token and expiration
   // time from the response
-  var spAccessToken = responseContent.access_token;
+  var spAccessToken = responseContent["access_token"];
+  console.log(spAccessToken);
   var spExpires = responseContent.expires_in;
   console.log(spExpires, spAccessToken);
   if (!spAccessToken) {
