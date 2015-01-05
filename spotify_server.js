@@ -59,7 +59,6 @@ var getTokenResponse = function (query) {
           grant_type: 'authorization_code'
         }
       }).content;
-    console.log(responseContent);
 
   } catch (err) {
     throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
@@ -73,8 +72,10 @@ var getTokenResponse = function (query) {
 
   // Success!  Extract the facebook access token and expiration
   // time from the response
+  console.log("extract");
+  console.log(isJSON(responseContent));
+  console.log(responseContent);
   var spAccessToken = responseContent["access_token"];
-  console.log(spAccessToken);
   var spExpires = responseContent.expires_in;
   console.log(spExpires, spAccessToken);
   if (!spAccessToken) {
