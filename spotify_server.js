@@ -4,8 +4,9 @@ var querystring = Npm.require('querystring');
 
 
 OAuth.registerService('spotify', 2, null, function(query) {
-  console.log('registered');
+  console.alert('registered');
   var response = getTokenResponse(query);
+  console.alert('response gotten');
   var accessToken = response.accessToken;
   var identity = getIdentity(accessToken);
 
