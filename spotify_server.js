@@ -4,9 +4,7 @@ var querystring = Npm.require('querystring');
 
 
 OAuth.registerService('spotify', 2, null, function(query) {
-  console.alert('registered');
   var response = getTokenResponse(query);
-  console.alert('response gotten');
   var accessToken = response.accessToken;
   var identity = getIdentity(accessToken);
 
@@ -48,7 +46,6 @@ var getTokenResponse = function (query) {
     throw new ServiceConfiguration.ConfigError();
 
   var responseContent;
-  console.log('request content');
   try {
     // Request an access token
     responseContent = HTTP.get(
@@ -65,7 +62,6 @@ var getTokenResponse = function (query) {
     throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
                    {response: err.response});
   }
-  console.log('requested completed successfully')
   // If 'responseContent' parses as JSON, it is an error.
   // XXX which facebook error causes this behvaior?
   if (isJSON(responseContent)) {
