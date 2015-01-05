@@ -72,17 +72,13 @@ var getTokenResponse = function (query) {
 
   // Success!  Extract the facebook access token and expiration
   // time from the response
-  console.log("extract");
-  console.log(isJSON(responseContent));
-  responseContent = JSON.parse(responseContent);
-  console.log(responseContent);
   var spAccessToken = responseContent.access_token;
   var spExpires = responseContent.expires_in;
-  console.log(spExpires, spAccessToken);
   if (!spAccessToken) {
     throw new Error("Failed to complete OAuth handshake with spotify " +
                     "-- can't find access token in HTTP response. " + responseContent);
   }
+  console.log("return tokens");
   return {
     accessToken: spAccessToken,
     expiresIn: spExpires
