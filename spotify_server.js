@@ -47,8 +47,9 @@ var getTokenResponse = function (query) {
 
   var responseContent;
   try {
+    console.log("try post");
     // Request an access token
-    responseContent = HTTP.get(
+    responseContent = HTTP.post(
       "https://accounts.spotify.com/api/token", {
         params: {
           code: query.code,
@@ -57,7 +58,9 @@ var getTokenResponse = function (query) {
           redirect_uri: OAuth._redirectUri('spotify', config),
           grant_type: 'authorization_code'
         }
-      }).content;
+      });
+    console.log(responseContent);
+    responseContent = responseContent.content;
   } catch (err) {
     throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
                    {response: err.response});
