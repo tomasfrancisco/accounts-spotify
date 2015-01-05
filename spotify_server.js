@@ -6,8 +6,9 @@ var querystring = Npm.require('querystring');
 OAuth.registerService('spotify', 2, null, function(query) {
   var response = getTokenResponse(query);
   var accessToken = response.accessToken;
+  consoe.log("yippeee");
   var identity = getIdentity(accessToken);
-
+  console.log("yuppeee")
   var serviceData = {
     accessToken: accessToken,
     expiresAt: (+new Date) + (1000 * response.expiresIn)
