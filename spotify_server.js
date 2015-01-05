@@ -10,7 +10,8 @@ OAuth.registerService('spotify', 2, null, function(query) {
   console.log(identity);
   var serviceData = {
     accessToken: accessToken,
-    expiresAt: (+new Date) + (1000 * response.expiresIn)
+    expiresAt: (+new Date) + (1000 * response.expiresIn),
+    id: identity.id
   };
 
   // include all fields from facebook
