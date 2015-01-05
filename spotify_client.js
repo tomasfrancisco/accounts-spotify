@@ -1,6 +1,6 @@
 Spotify = {};
 
-// Request Facebook credentials for the user
+// Request Spotify credentials for the user
 //
 // @param options {optional}
 // @param credentialRequestCompleteCallback {Function} Callback function to call on

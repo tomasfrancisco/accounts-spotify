@@ -7,21 +7,12 @@ OAuth.registerService('spotify', 2, null, function(query) {
   var response = getTokenResponse(query);
   var accessToken = response.accessToken;
   var identity = getIdentity(accessToken);
-  console.log(identity);
   var serviceData = {
     accessToken: accessToken,
     expiresAt: (+new Date) + (1000 * response.expiresIn),
     id: identity.id
   };
 
-  // include all fields from facebook
-  // http://developers.facebook.com/docs/reference/login/public-profile-and-friend-list/
-  // var whitelisted = ['id', 'email', 'name', 'first_name',
-  //     'last_name', 'link', 'username', 'gender', 'locale', 'age_range'];
-
-  // var fields = _.pick(identity, whitelisted);
-  // _.extend(serviceData, fields);
-  console.log(serviceData);
   return {
     serviceData: serviceData,
     options: {profile: {name: identity.display_name}}
@@ -48,7 +39,6 @@ var getTokenResponse = function (query) {
 
   var responseContent;
   try {
-    console.log("try post");
     // Request an access token
     responseContent = HTTP.post(
       "https://accounts.spotify.com/api/token", {
@@ -65,23 +55,20 @@ var getTokenResponse = function (query) {
     throw _.extend(new Error("Failed to complete OAuth handshake with Spotify. " + err.message),
                    {response: err.response});
   }
-  // If 'responseContent' parses as JSON, it is an error.
-  // XXX which facebook error causes this behvaior?
+
   if (isJSON(responseContent) && responseContent.error) { //error in content
     throw new Error("Failed to complete OAuth handshake with Spotify. " + responseContent);
   }
 
-  // Success!  Extract the facebook access token and expiration
-  // time from the response
+  // Success!  Extract!
   responseContent = JSON.parse(responseContent);
   var spAccessToken = responseContent.access_token;
   var spExpires = responseContent.expires_in;
-  console.log(spExpires, spAccessToken);
+
   if (!spAccessToken) {
     throw new Error("Failed to complete OAuth handshake with spotify " +
                     "-- can't find access token in HTTP response. " + responseContent);
   }
-  console.log("return tokens");
   return {
     accessToken: spAccessToken,
     expiresIn: spExpires
