@@ -67,6 +67,7 @@ var getTokenResponse = function (query) {
   // If 'responseContent' parses as JSON, it is an error.
   // XXX which facebook error causes this behvaior?
   if (isJSON(responseContent)) {
+    console.log("i'm json")
     throw new Error("Failed to complete OAuth handshake with Spotify. " + responseContent);
   }
 
