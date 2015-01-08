@@ -24,9 +24,9 @@ Spotify.requestCredential = function (options, credentialRequestCompleteCallback
   var mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
   var display = mobile ? 'touch' : 'popup';
 
-  var scope = "playlist-modify-public";
+  var scopes = ["playlist-modify-public", "user-library-modify"];
   if (options && options.requestPermissions)
-    scope = options.requestPermissions.join(',');
+    scopes = options.requestPermissions;
 
   var loginStyle = OAuth._loginStyle('spotify', config, options);
 
@@ -39,7 +39,7 @@ Spotify.requestCredential = function (options, credentialRequestCompleteCallback
         'https://accounts.spotify.com/authorize?client_id=' + config.appId +
         '&response_type=code' +
         '&redirect_uri=' + OAuth._redirectUri('spotify', config) + 
-        '&scope=' + scope +
+        '&scope=' + scopes.join('%20') +
         '&state=' + OAuth._stateParam(loginStyle, credentialToken);
   console.log(OAuth._redirectUri('spotify', config));
   OAuth.launchLogin({
