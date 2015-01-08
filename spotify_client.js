@@ -24,7 +24,7 @@ Spotify.requestCredential = function (options, credentialRequestCompleteCallback
   var mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
   var display = mobile ? 'touch' : 'popup';
 
-  var scopes = ["playlist-modify-public", "user-library-modify"];
+  var scopes = ["playlist-modify-public", "user-library-modify", "user-library-read", "user-read-private"];
   if (options && options.requestPermissions)
     scopes = options.requestPermissions;
 
